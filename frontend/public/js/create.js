@@ -8,12 +8,12 @@ document.getElementById("form").addEventListener("submit", async (e) => {
 
   const data = new FormData(e.target);
   const payload = {
-    campo1: data.get("campo1"),
-    campo2: data.get("campo2"),
-    campo3: data.get("campo3"),
-    campo4: parseInt(data.get("campo4"), 10),
-    campo5: parseFloat(data.get("campo5")),
-    campo6: e.target.campo6.checked,
+    campo1: data.get("nombre"),
+    campo2: data.get("ciudad"),
+    campo3: data.get("conferencia"),
+    campo4: parseInt(data.get("titulos"), 10),
+    campo5: parseFloat(data.get("victorias")),
+    campo6: e.target.elements.campeon.checked,
   };
 
   try {
