@@ -4,7 +4,7 @@ services:
     ports:
       - "8080:3000"
     env_file:
-      - ./api/.env
+      - ./.env
     depends_on:
       db:
         condition: service_healthy
@@ -12,14 +12,14 @@ services:
   db:
     image: postgres:16-alpine
     environment:
-      POSTGRES_DB: jobsimulator
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
       - ./api/init.sql:/docker-entrypoint-initdb.d/init.sql
       - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U user -d jobsimulator"]
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -27,7 +27,7 @@ services:
   frontend:
     build: ./frontend
     ports:
-      - "8088:80"
+      - "${FRONTEND_PORT:-8088}:80"
 
 volumes:
   pgdata:
